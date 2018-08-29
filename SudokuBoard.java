@@ -78,7 +78,7 @@ public static void main(String args[]){
 				 */
 	
 	
-	System.out.println("TestBoard: ");
+/* 	System.out.println("TestBoard: ");
 	TestBoard.printSudokuBoard(TestBoard); 
 	
 	SudokuBoard TestBoardClone = new SudokuBoard();
@@ -97,6 +97,6 @@ public static void main(String args[]){
 	TestBoard.printSudokuBoard(TestBoard);
 	
 	System.out.println("TestBoardClone After Update: ");
-	TestBoardClone.printSudokuBoard(TestBoardClone);
+	TestBoardClone.printSudokuBoard(TestBoardClone); */
 }
 }

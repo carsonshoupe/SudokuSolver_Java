@@ -29,16 +29,97 @@ class SudokuSolver{
 		
 		//Solving: 
 		
+		int tracker = 0; //tracks where in the orderedCoordinatesOfWorkingBoard the solver is. 
 		
-		
-		
-		
+		while (tracker != 81){
+			if (orderedCoordinatesOfWorkingBoard[tracker].getValueLocked() == true){
+				tracker++;
+				continue;
+			}
+			
+			int checkValue = orderedCoordinatesOfWorkingBoard[tracker].getValueAtCoordinate();
+			
+			while(checkValue < 10){
+				if(checkAll(checkValue, orderedCoordinatesOfWorkingBoard[tracker], workingBoard) == true){
+					orderedCoordinatesOfWorkingBoard[tracker].setValueAtCoordinate(checkValue);
+					tracker++;
+					break;
+				}
+				else{
+					checkValue++;
+				}
+			}
+			if(checkValue == 10){
+				orderedCoordinatesOfWorkingBoard[tracker].setValueAtCoordinate(0); 
+				tracker--; 
+				while(orderedCoordinatesOfWorkingBoard[tracker].getValueLocked() == true){
+					tracker--;
+				}
+			}
+		}
+		workingBoard.printSudokuBoard(workingBoard); 
 	}
+
 	
 	//Methods: 
+	public boolean checkXRow(int checkValue, Coordinate inputCoordinate, SudokuBoard inputSudokuBoard){
+		int xCoordinate = inputCoordinate.getXCoordinate(); 
+		Coordinate[][] sudokuBoardCoordinates = inputSudokuBoard.getCoordinates(inputSudokuBoard); 
+		
+		for (int yCounter = 0; yCounter < 9; yCounter++){
+			int currentValue = sudokuBoardCoordinates[xCoordinate-1][yCounter].getValueAtCoordinate(); 
+			if (checkValue == currentValue){
+				return false; 
+			}
+		}
+		return true; 
+	}
 	
+		public boolean checkYRow(int checkValue, Coordinate inputCoordinate, SudokuBoard inputSudokuBoard){
+		int yCoordinate = inputCoordinate.getYCoordinate(); 
+		Coordinate[][] sudokuBoardCoordinates = inputSudokuBoard.getCoordinates(inputSudokuBoard); 
+		
+		for (int xCounter = 0; xCounter < 9; xCounter++){
+			int currentValue = sudokuBoardCoordinates[xCounter][yCoordinate-1].getValueAtCoordinate(); 
+			if (checkValue == currentValue){
+				return false; 
+			}
+		}
+		return true; 
+		}
+	
+		public boolean checkSquare(int checkValue, Coordinate inputCoordinate, SudokuBoard inputSudokuBoard){
+		int checkSquareValue = inputCoordinate.getSquareValue(); 
+		
+		Coordinate[][] sudokuBoardCoordinates = inputSudokuBoard.getCoordinates(inputSudokuBoard); 
+		
+		for (int yCounter = 0; yCounter<9; yCounter++){
+			for (int xCounter = 0; xCounter<9; xCounter++){
+				Coordinate checkCoordinate = sudokuBoardCoordinates[yCounter][xCounter];
+				if (checkSquareValue == checkCoordinate.getSquareValue()){
+					if (checkValue == checkCoordinate.getValueAtCoordinate()){
+						return false;
+					}
+				}
+			}
+		}
+		return true;
+		}				
+		
+		public boolean checkAll(int checkValue, Coordinate inputCoordinate, SudokuBoard inputSudokuBoard){
+			if (checkXRow(checkValue, inputCoordinate, inputSudokuBoard) && checkYRow(checkValue, inputCoordinate, inputSudokuBoard) && checkSquare(checkValue, inputCoordinate, inputSudokuBoard) == true){
+				return true; 
+			}
+			return false; 
+			}
+		
+
+	
+	
+	
+	//Main: 
 	public static void main(String args[]){
-		SudokuBoard TestBoard = new SudokuBoard("200007603000030080003000000810000060097206830030000024000000400070050000604300007");
+		SudokuBoard TestBoard = new SudokuBoard("409300000500407000017680000000000520108000603065000000000076350000209008000004906");
 		
 		SudokuSolver Solver = new SudokuSolver(TestBoard);
 		
