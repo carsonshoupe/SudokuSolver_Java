@@ -7,19 +7,19 @@ class SudokuBoard{
 	// Test board Numbers: 200007603000030080003000000810000060097206830030000024000000400070050000604300007
 	
 	SudokuBoard(String boardAsNumbers){
-		boardInputAsString = boardAsNumbers; 
+		this.boardInputAsString = boardAsNumbers; 
 		int locationCounter = 0; //This var is the location in the string of boardAsNumbers
 		for (int yCounter = 0; yCounter<9; yCounter++){
 			for (int xCounter = 0; xCounter<9; xCounter++){
-				coordinates[xCounter][yCounter] = new Coordinate(xCounter+1, yCounter+1);
+				this.coordinates[xCounter][yCounter] = new Coordinate(xCounter+1, yCounter+1);
 				
 				char tempChar = boardAsNumbers.charAt(locationCounter);
 				int tempInt = Integer.parseInt(String.valueOf(tempChar)); //converting the charAt char to an int
 				
-				coordinates[xCounter][yCounter].setValueAtCoordinate(tempInt); 
+				this.coordinates[xCounter][yCounter].setValueAtCoordinate(tempInt); 
 				
 				if (tempInt !=0){
-					coordinates[xCounter][yCounter].setValueLocked(true); //locking preset values
+					this.coordinates[xCounter][yCounter].setValueLocked(true); //locking preset values
 				}					
 				
 				locationCounter++;
@@ -27,76 +27,43 @@ class SudokuBoard{
 		}
 	}
 	
-	SudokuBoard(){
+	SudokuBoard(Coordinate[][] inputCoordinates){ //clones coordinates
 		for (int yCounter = 0; yCounter<9; yCounter++){
 			for (int xCounter = 0; xCounter<9; xCounter++){
-				coordinates[xCounter][yCounter] = new Coordinate(xCounter+1, yCounter+1);
+				Coordinate updatedCoordinate = inputCoordinates[xCounter][yCounter].clone(); 
+				this.coordinates[xCounter][yCounter] = updatedCoordinate; 
 			}
 		}
 	}
+	
+	SudokuBoard(){
+		this("000000000000000000000000000000000000000000000000000000000000000000000000000000000");
+		}
 	
 	//Methods:
-	public void printSudokuBoard(SudokuBoard currentBoard){
+	public Coordinate[][] getCoordinates(){return this.coordinates;} 
+	public void setCoordinates(Coordinate[][] updatedCoordinates){this.coordinates = updatedCoordinates;}
+	
+	@Override
+	public String toString(){ 
+	//Not sure if its better to save the string formatted as I want it to print or to save it as a flat string of numbers.  Same follows for the toString fxn for Coordinate. 
+		String resultString = ""; 
 		for (int yCounter = 0; yCounter<9; yCounter++){
 			for (int xCounter = 0; xCounter<9; xCounter++){
-				Coordinate[][] currentCoordinates = getCoordinates(currentBoard);
-				System.out.print(currentCoordinates[xCounter][yCounter].getValueAtCoordinate()); 
-				System.out.print("   ");
+				Coordinate[][] currentCoordinates = this.getCoordinates();
+				resultString = resultString + currentCoordinates[xCounter][yCounter].getValueAtCoordinate() +("   ");
 			}
-			System.out.print("\n"); 
+			resultString = resultString + "\n"; 
 		}
+		return resultString; 
 	}
 	
-	public Coordinate[][] getCoordinates(SudokuBoard currentBoard){return coordinates;} 
+	public void printSudokuBoard(){System.out.println(this.toString());}
 	
-	public void setCoordinates(Coordinate[][] updatedCoordinates){coordinates = updatedCoordinates;}
-	
-	public SudokuBoard cloneSudokuBoard(SudokuBoard inputBoard){
-		SudokuBoard outputBoard = new SudokuBoard(inputBoard.boardInputAsString);
-/* 		Coordinate[][] inputBoardCoordinates = inputBoard.getCoordinates(inputBoard); 
-		
-		Coordinate[][] outputBoardCoordinates = new Coordinate[inputBoardCoordinates.length][]; 
-		for (int r = 0; r < inputBoardCoordinates.length; r++){
-			outputBoardCoordinates[r] = inputBoardCoordinates[r].clone(); 
-		}
-		
-		outputBoard.setCoordinates(outputBoardCoordinates);  */
-		
-		return outputBoard; 
+	@Override
+	public SudokuBoard clone(){
+		//Whenever you make a sudokuboard from input coordinates, it clones all the coordinates and makes a board from there.  So my cloner just uses the SudokuBoard(coordinates[][]) constructor.  
+		SudokuBoard outputSudokuBoard = new SudokuBoard(this.getCoordinates()); 
+		return outputSudokuBoard; 
 	}
-		
-	
-public static void main(String args[]){
-	SudokuBoard TestBoard = new SudokuBoard("200007603000030080003000000810000060097206830030000024000000400070050000604300007");
-	
-/* 	Coordinate[][] testCoordinates = TestBoard.getCoordinates(TestBoard);
-	for (int yCounter = 0; yCounter<9; yCounter++){
-			for (int xCounter = 0; xCounter<9; xCounter++){
-				testCoordinates[xCounter][yCounter].printCoordinateInfo(testCoordinates[xCounter][yCounter]);
-			}
-	}
-				 */
-	
-	
-/* 	System.out.println("TestBoard: ");
-	TestBoard.printSudokuBoard(TestBoard); 
-	
-	SudokuBoard TestBoardClone = new SudokuBoard();
-	System.out.println("TestBoardClone before Clone: ");
-	TestBoardClone.printSudokuBoard(TestBoardClone); 
-	
-	TestBoardClone = TestBoard.cloneSudokuBoard(TestBoard); 
-	
-	System.out.println("TestBOardClone After Clone: ");
-	TestBoardClone.printSudokuBoard(TestBoardClone); 
-	
-	System.out.println("Updating Test Board to see if it affects clone...");
-	TestBoard.getCoordinates(TestBoard)[0][1].setValueAtCoordinate(9); 
-	
-	System.out.println("TestBoard: ");
-	TestBoard.printSudokuBoard(TestBoard);
-	
-	System.out.println("TestBoardClone After Update: ");
-	TestBoardClone.printSudokuBoard(TestBoardClone); */
-}
 }
