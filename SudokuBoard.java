@@ -27,7 +27,7 @@ class SudokuBoard{
 		}
 	}
 	
-	SudokuBoard(){
+	SudokuBoard(){  //this("0000000000000000000000000000000000")
 		for (int yCounter = 0; yCounter<9; yCounter++){
 			for (int xCounter = 0; xCounter<9; xCounter++){
 				coordinates[xCounter][yCounter] = new Coordinate(xCounter+1, yCounter+1);
@@ -45,9 +45,10 @@ class SudokuBoard{
 			}
 			System.out.print("\n"); 
 		}
+		System.out.print("\n");
 	}
 	
-	public Coordinate[][] getCoordinates(SudokuBoard currentBoard){return coordinates;} 
+	public Coordinate[][] getCoordinates(SudokuBoard currentBoard){return coordinates;} //remove argument
 	
 	public void setCoordinates(Coordinate[][] updatedCoordinates){coordinates = updatedCoordinates;}
 	

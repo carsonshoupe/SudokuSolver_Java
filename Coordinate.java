@@ -16,7 +16,7 @@ class Coordinate{
 	}
 	
 	//Methods:
-	public int calculateSquareValue(int x, int y){
+	public int calculateSquareValue(int x, int y){ //make static b/c its part of the form
 		squareValue = ((x-1)/3 + ((y-1)/3)*3)+1;
 		return squareValue; 
 	}
@@ -34,7 +34,7 @@ class Coordinate{
 	public void setValueAtCoordinate(int newValueAtCoordinate){valueAtCoordinate = newValueAtCoordinate;}
 	public void setValueLocked(boolean locked){valueLocked = locked;}
 	
-	public void printCoordinateInfo(Coordinate coordinate){
+	public void printCoordinateInfo(Coordinate coordinate){ //conflates representation with presentation, change to get string, then print
 		System.out.println("Coordinates: (" + getXCoordinate() + ", " + getYCoordinate() + ")");
 		System.out.println("Square Value: " + getSquareValue()); 
 		System.out.println("Value at Coordinate: " + getValueAtCoordinate());

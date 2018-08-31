@@ -75,7 +75,7 @@ class SudokuSolver{
 		return true; 
 	}
 	
-		public boolean checkYRow(int checkValue, Coordinate inputCoordinate, SudokuBoard inputSudokuBoard){
+	public boolean checkYRow(int checkValue, Coordinate inputCoordinate, SudokuBoard inputSudokuBoard){
 		int yCoordinate = inputCoordinate.getYCoordinate(); 
 		Coordinate[][] sudokuBoardCoordinates = inputSudokuBoard.getCoordinates(inputSudokuBoard); 
 		
@@ -88,7 +88,7 @@ class SudokuSolver{
 		return true; 
 		}
 	
-		public boolean checkSquare(int checkValue, Coordinate inputCoordinate, SudokuBoard inputSudokuBoard){
+	public boolean checkSquare(int checkValue, Coordinate inputCoordinate, SudokuBoard inputSudokuBoard){
 		int checkSquareValue = inputCoordinate.getSquareValue(); 
 		
 		Coordinate[][] sudokuBoardCoordinates = inputSudokuBoard.getCoordinates(inputSudokuBoard); 
@@ -106,12 +106,12 @@ class SudokuSolver{
 		return true;
 		}				
 		
-		public boolean checkAll(int checkValue, Coordinate inputCoordinate, SudokuBoard inputSudokuBoard){
-			if (checkXRow(checkValue, inputCoordinate, inputSudokuBoard) && checkYRow(checkValue, inputCoordinate, inputSudokuBoard) && checkSquare(checkValue, inputCoordinate, inputSudokuBoard) == true){
-				return true; 
-			}
-			return false; 
-			}
+	public boolean checkAll(int checkValue, Coordinate inputCoordinate, SudokuBoard inputSudokuBoard){
+		if (checkXRow(checkValue, inputCoordinate, inputSudokuBoard) && checkYRow(checkValue, inputCoordinate, inputSudokuBoard) && checkSquare(checkValue, inputCoordinate, inputSudokuBoard) == true){
+			return true; 
+		}
+		return false; 
+		}
 		
 
 	
@@ -119,7 +119,9 @@ class SudokuSolver{
 	
 	//Main: 
 	public static void main(String args[]){
-		SudokuBoard TestBoard = new SudokuBoard("409300000500407000017680000000000520108000603065000000000076350000209008000004906");
+		
+		//one testboard: "409300000500407000017680000000000520108000603065000000000076350000209008000004906" -- Success
+		SudokuBoard TestBoard = new SudokuBoard("000200700060004000020089301280003006005000200300600058106870040000100080008006000");
 		
 		SudokuSolver Solver = new SudokuSolver(TestBoard);
 		
