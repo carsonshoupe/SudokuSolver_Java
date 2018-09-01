@@ -1,17 +1,23 @@
 class CoordinateTester{
 
 public static void main(String args[]){
-	Coordinate testCoordinate = new Coordinate(3, 7); 
+	Coordinate testCoordinate1 = new Coordinate(3, 7); 
 	
-	testCoordinate.printCoordinate(); 
+	Coordinate testCoordinate2 = new Coordinate(3, 7); 
 	
-	Coordinate testCoordinate2 = testCoordinate.clone(); 
+	Coordinate testCoordinate3 = new Coordinate(1, 1); 
+	
+	System.out.println(testCoordinate1.equals(testCoordinate2)); 
+	
+	System.out.println(testCoordinate1.equals(testCoordinate3));
+	
+	testCoordinate1.printCoordinate(); 
 	
 	testCoordinate2.printCoordinate(); 
 	
-	testCoordinate.setValueAtCoordinate(3); 
+	testCoordinate1.setValueAtCoordinate(3); 
 	
-	testCoordinate.printCoordinate(); 
+	testCoordinate1.printCoordinate(); 
 	
 	testCoordinate2.printCoordinate(); 
 }

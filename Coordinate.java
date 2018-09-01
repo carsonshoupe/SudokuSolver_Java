@@ -34,6 +34,24 @@ class Coordinate{
 	public void setValueLocked(boolean locked){valueLocked = locked;}
 	
 	@Override
+	public boolean equals(Object o){
+		if (!(o instanceof Coordinate)){
+			//System.out.println("Returned false because second half of equality statement is not a coordinate");
+			return false;
+		}
+		
+		Coordinate anotherCoordinate = (Coordinate) o;
+		
+		if (this.getXCoordinate() == anotherCoordinate.getXCoordinate() && this.getYCoordinate() == anotherCoordinate.getYCoordinate()){
+			return true;
+		}
+		else{
+			//System.out.println("Returned false because coordinate locations were not the same");
+			return false;
+		}
+	}
+	
+	@Override
 	public Coordinate clone(){
 		Coordinate outputCoordinate = new Coordinate(this.getXCoordinate(), this.getYCoordinate()); 
 		outputCoordinate.setValueAtCoordinate(this.getValueAtCoordinate()); 
