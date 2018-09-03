@@ -21,64 +21,32 @@ class SudokuSolver{
 	
 	//Solver:
 	public SudokuBoard solve(){
-		this.exceptionCatcher(); 
-		
-		//System.out.println("It got past the exceptionCatcher");
+		this.checkLockedCoordinatesInvaidBoard(); 
 		
 		int tracker = 0; //tracks where in the orderedCoordinatesOfWorkingBoard the solver is. 
 		
-		int firstUnlockedCoordinate = 0;
-		for (int counter = 0; counter < 81; counter++){
-			if (orderedCoordinatesOfWorkingBoard[counter].getValueLocked() == true){
-				continue; 
-			}
-			else{
-				firstUnlockedCoordinate = counter;
-				break;
-			}
-		}
-		
-		System.out.println("First Unlocked Coordinate: " + orderedCoordinatesOfWorkingBoard[firstUnlockedCoordinate]); 
-		
 		while (tracker != 81){
-			//System.out.println("The tracker is at " + tracker);
-			
 			if (this.orderedCoordinatesOfWorkingBoard[tracker].getValueLocked() == true){
 				tracker++;
 				continue;
 			}
 			
-			//workingBoard.printSudokuBoard();
-			
 			int checkValue = this.orderedCoordinatesOfWorkingBoard[tracker].getValueAtCoordinate()+1;
-			//System.out.println("The tracker is at " + tracker);
-			//System.out.println("The checkValue is at " + checkValue);
 			
 			while(checkValue < 10){
 				if(checkAll(checkValue, this.orderedCoordinatesOfWorkingBoard[tracker], this.workingBoard) == true){
-					this.orderedCoordinatesOfWorkingBoard[tracker].setValueAtCoordinate(checkValue);
-					//System.out.println("checkValue: " + checkValue);
-					//workingBoard.printSudokuBoard();
+					this.orderedCoordinatesOfWorkingBoard[tracker].setValueAtCoordinate(checkValue);;
 					tracker++;
 					break;
 				}
 				else{
 					checkValue++;
-					//System.out.println("The checkValue was updated to " + checkValue);
 				}
 			}
 			
-			try{		//catching unsolveable boards
-				if (firstUnlockedCoordinate==tracker && checkValue == 10){
-					throw new InvalidBoard(); 
-				}
-			}
-			catch (InvalidBoard unsolveableBoardException){
-				System.out.println("This board is unsolvable. Reconsider board and try again");
-			}
+			this.catchUnsolveableBoard(tracker, checkValue); 
 			
 			if(checkValue == 10){
-				//workingBoard.printSudokuBoard();
 				this.orderedCoordinatesOfWorkingBoard[tracker].setValueAtCoordinate(0); 
 				tracker--; 
 				while(this.orderedCoordinatesOfWorkingBoard[tracker].getValueLocked() == true){
@@ -155,7 +123,7 @@ class SudokuSolver{
 	}
 		
 		
-	public void exceptionCatcher(){
+	public void checkLockedCoordinatesInvaidBoard(){
 		try{
 			for (int counter = 0; counter < 81; counter++){
 				Coordinate testCoordinate = this.orderedCoordinatesOfWorkingBoard[counter]; 
@@ -173,6 +141,27 @@ class SudokuSolver{
 		}
 	}
 	
-	
+	public void catchUnsolveableBoard(int inputTracker, int inputCheckValue){
+		int firstUnlockedCoordinate = 0;
+		for (int counter = 0; counter < 81; counter++){
+			if (this.orderedCoordinatesOfWorkingBoard[counter].getValueLocked() == true){
+				continue; 
+			}
+			else{
+				firstUnlockedCoordinate = counter;
+				break;
+			}
+		}
+		
+		try{
+			if (firstUnlockedCoordinate==inputTracker && inputCheckValue == 10){
+				throw new InvalidBoard(); 
+			}
+		}
+		catch (InvalidBoard unsolveableBoardException){
+			System.out.println("First Unlocked Coordinate: \n" + orderedCoordinatesOfWorkingBoard[firstUnlockedCoordinate]); 
+			System.out.println("This board is unsolvable. Reconsider board and try again");
+		}
+	}
 }
 	
