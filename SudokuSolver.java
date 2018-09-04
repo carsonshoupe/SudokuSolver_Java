@@ -20,8 +20,8 @@ class SudokuSolver{
 	}
 	
 	//Solver:
-	public SudokuBoard solve(){
-		this.checkLockedCoordinatesInvaidBoard(); 
+	public SudokuBoard solve() throws UnsolveableBoardException{
+		this.checkLockedCoordinatesForUnsolveableBoard(); 
 		
 		int tracker = 0; //tracks where in the orderedCoordinatesOfWorkingBoard the solver is. 
 		
@@ -123,25 +123,20 @@ class SudokuSolver{
 	}
 		
 		
-	public void checkLockedCoordinatesInvaidBoard(){
-		try{
-			for (int counter = 0; counter < 81; counter++){
-				Coordinate testCoordinate = this.orderedCoordinatesOfWorkingBoard[counter]; 
-				if (testCoordinate.getValueLocked() == true){
-					if (checkAll(testCoordinate.getValueAtCoordinate(), testCoordinate, this.originalBoard) == false){
-						System.out.println("This coordinate threw the exception: ");
-						testCoordinate.printCoordinate();
-						throw new InvalidBoard(); 
-					}
+	public void checkLockedCoordinatesForUnsolveableBoard() throws UnsolveableBoardException {
+		for (int counter = 0; counter < 81; counter++){
+			Coordinate testCoordinate = this.orderedCoordinatesOfWorkingBoard[counter]; 
+			if (testCoordinate.getValueLocked() == true){
+				if (checkAll(testCoordinate.getValueAtCoordinate(), testCoordinate, this.originalBoard) == false){
+					System.out.println("This coordinate threw the exception: ");
+					testCoordinate.printCoordinate();
+					throw new UnsolveableBoardException("The locked coordinates do not pass the checkAll test"); 
 				}
 			}
 		}
-		catch (InvalidBoard invalidBoardException){
-			System.out.println("Caught invalid board.  Reenter board and try again.");
-		}
 	}
 	
-	public void catchUnsolveableBoard(int inputTracker, int inputCheckValue){
+	public void catchUnsolveableBoard(int inputTracker, int inputCheckValue) throws UnsolveableBoardException{ 
 		int firstUnlockedCoordinate = 0;
 		for (int counter = 0; counter < 81; counter++){
 			if (this.orderedCoordinatesOfWorkingBoard[counter].getValueLocked() == true){
@@ -152,15 +147,8 @@ class SudokuSolver{
 				break;
 			}
 		}
-		
-		try{
-			if (firstUnlockedCoordinate==inputTracker && inputCheckValue == 10){
-				throw new InvalidBoard(); 
-			}
-		}
-		catch (InvalidBoard unsolveableBoardException){
-			System.out.println("First Unlocked Coordinate: \n" + orderedCoordinatesOfWorkingBoard[firstUnlockedCoordinate]); 
-			System.out.println("This board is unsolvable. Reconsider board and try again");
+		if (firstUnlockedCoordinate==inputTracker && inputCheckValue == 10){
+			throw new UnsolveableBoardException("Checked all possible values given the starting values, and this board is unsolvable."); 
 		}
 	}
 }
