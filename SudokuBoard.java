@@ -4,8 +4,6 @@ class SudokuBoard{
 	private String boardInputAsString; 
 	
 	//Constructors:
-	// Test board Numbers: 200007603000030080003000000810000060097206830030000024000000400070050000604300007
-	
 	SudokuBoard(String boardAsNumbers){
 		this.boardInputAsString = boardAsNumbers; 
 		int locationCounter = 0; //This var is the location in the string of boardAsNumbers
